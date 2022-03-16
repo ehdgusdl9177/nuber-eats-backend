@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RestaurantsModule } from './restaurants/restaurants.module';
+import { Restuarant } from './restaurants/entities/restuarant.entity';
 
 @Module({
   imports: [
@@ -28,8 +29,9 @@ import { RestaurantsModule } from './restaurants/restaurants.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      synchronize: true,
+      synchronize: process.env.NODE_ENV !== 'prod',
       logging: true,
+      entities: [Restuarant],
     }),
     GraphQLModule.forRoot({
       driver: ApolloDriver,
